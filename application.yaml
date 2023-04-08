@@ -7,7 +7,8 @@ spec:
   project: default
 
   source:
-    repoURL: https://gitlab.com/devops-iac1/teste.gitk  
+    #repoURL: https://gitlab.com/devops-iac1/teste.git  
+    repoURL: https://github.com/robsonsantosdevops/teste_argo.git  
     targetRevision: HEAD
     path: dev
   destination: 
