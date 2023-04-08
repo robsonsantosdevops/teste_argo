@@ -1,0 +1,1 @@
+git clone git@gitlab.com:devops-iac1/keycloak.git --config core.sshCommand="ssh -i /home/devops/ssh-keys/robson.santos/gitlab"
