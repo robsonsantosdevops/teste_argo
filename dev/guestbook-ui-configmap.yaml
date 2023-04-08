@@ -6,4 +6,5 @@ data:
 kind: ConfigMap
 metadata:
   name: nomes-vingadores
+  namespace: teste
 
