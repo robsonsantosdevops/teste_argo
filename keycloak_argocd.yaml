@@ -9,6 +9,8 @@ spec:
     repoURL: https://charts.bitnami.com/bitnami
     targetRevision: 14.0.0
     path: keycloak
+    files:
+          - path: manifests/ingress_keycloak.yaml
     chart: keycloak
     #path: dev
     # files:
