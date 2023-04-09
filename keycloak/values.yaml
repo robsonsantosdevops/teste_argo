@@ -1,0 +1,69 @@
+# command:
+#   - "/opt/keycloak/bin/kc.sh"
+#   - "--verbose"
+#   - "start"
+
+# command:
+#   - "/opt/keycloak/bin/kc.sh"
+#   - "--verbose"
+#   - "start"
+#   - "--auto-build"
+#   - "--http-enabled=true"
+#   - "--http-port=8080"
+#   - "--hostname-strict=false"
+#   - "--hostname-strict-https=false"
+#   - "--spi-events-listener-jboss-logging-success-level=info"
+#   - "--spi-events-listener-jboss-logging-error-level=warn"
+#   - "--import-realm"
+
+# extraVolumes: |
+#   - name: realm-secret
+#     secret:
+#       secretName: realm-secret
+# extraVolumeMounts: |
+#   - name: realm-secret
+#     mountPath: "/realm/"
+#     readOnly: true
+
+extraEnv: |
+  - name: KEYCLOAK_IMPORT
+    value: /realm/realm-config.json
+  - name: KEYCLOAK_ADMIN
+    value: "abc"
+  - name: KEYCLOAK_ADMIN_PASSWORD
+    value: "abc"
+  - name: KC_PROXY
+    value: "passthrough"
+  - name: JAVA_OPTS_APPEND
+    value: >-
+      -Djgroups.dns.query={{ include "keycloak.fullname" . }}-headless
+      -Dkeycloak.import=/realm/realm-config.json
+
+# ingress:
+#   enabled: true
+#   ingressClassName: nginx
+#   rules:
+#     - host: "keycloak-new.aws.newbusinessdev.local"
+#       paths:
+#         - path: /
+#           pathType: Prefix
+
+# postgresql:
+#   enabled: true
+#   postgresqlPassword: 9oRe200l2q
+
+    #  - name: POSTGRES_USER
+    #    value: bn_keycloak
+    #  - name: POSTGRES_POSTGRES_PASSWORD
+    #    valueFrom:
+    #      secretKeyRef:
+    #        key: postgres-password
+    #        name: keycloak-postgresql
+    #  - name: POSTGRES_PASSWORD
+    #    valueFrom:
+    #      secretKeyRef:
+    #        key: password
+    #        name: keycloak-postgresql
+
+# http:
+#   relativePath: '/'

@@ -1,0 +1,24 @@
+https://docs.bitnami.com/kubernetes/get-started-kubernetes/
+https://github.com/bitnami/charts/tree/main/bitnami/keycloak/#installing-the-chart
+https://docs.bitnami.com/kubernetes/apps/keycloak/configuration/manage-passwords/
+https://docs.bitnami.com/kubernetes/apps/keycloak/administration/upgrade/
+
+
+- Install keycloack
+
+apt install jp postgresql-client-common -y
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm install keycloak bitnami/keycloak -n keycloak
+
+- Exibir a senha de login keycloack
+
+kubectl get secret --namespace keycloak keycloak -o jsonpath="{.data.admin-password}" | base64 -d
+
+
+- Uninstall 
+
+helm uninstall keycloak -n keycloak
+
+- Exibir a senha do banco postgresql do keycloack
+
+kubectl get secret keycloak-postgresql -n keycloak -o json | jq '.data|map_values(@base64d)'

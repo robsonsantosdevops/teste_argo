@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: keycloak-ui-nginx
+  name: keycloak-nginx
   namespace: keycloak
   annotations:
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
@@ -10,7 +10,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: "keycloak.aws.newbusinesshom.local"
+  - host: "keycloak.aws.newbusinessdev.local"
     http:
       paths:
       - path: "/"
