@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://charts.bitnami.com/bitnami
     targetRevision: 14.0.0
-    path: dev/keycloak
+    path: keycloak
     chart: keycloak
     #path: dev
     # files:
@@ -16,9 +16,9 @@ spec:
     helm:
       valueFiles:
         - values.yaml
-      parameters:
-        - name: keycloak
-          value: keycloak-val
+      # parameters:
+      #   - name: keycloak
+      #     value: keycloak-val
       #releaseName: keycloak
     # valueFiles:
     #   - dev/keycloak/values.yaml
@@ -31,5 +31,5 @@ spec:
     - CreateNamespace=true
 
     automated:
-      selfHeal: true
-      prune: true
+      selfHeal: false
+      prune: false
