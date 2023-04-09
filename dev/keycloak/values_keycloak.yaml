@@ -1,0 +1,80 @@
+replicas: 1
+
+# Deploy the latest version
+image:
+  tag: "20.0.3"
+
+extraVolumes: |
+  - name: realm-secret
+    secret:
+      secretName: realm-secret
+extraVolumeMounts: |
+  - name: realm-secret
+    mountPath: "/realm/"
+    readOnly: true
+
+command:
+  - "/opt/keycloak/bin/kc.sh"
+  - "--verbose"
+  - "start"
+  - "--auto-build"
+  - "--http-enabled=true"
+  - "--http-port=8080"
+  - "--hostname-strict=false"
+  - "--hostname-strict-https=false"
+  - "--spi-events-listener-jboss-logging-success-level=info"
+  - "--spi-events-listener-jboss-logging-error-level=warn"
+  - "--import-realm"
+  
+extraEnv: |
+  - name: KEYCLOAK_IMPORT
+    value: /realm/realm-config.json
+  - name: KEYCLOAK_ADMIN
+    value: "abc"
+  - name: KEYCLOAK_ADMIN_PASSWORD
+    value: "abc"
+  - name: KC_PROXY
+    value: "passthrough"
+  - name: JAVA_OPTS_APPEND
+    value: >-
+      -Djgroups.dns.query={{ include "keycloak.fullname" . }}-headless
+      -Dkeycloak.import=/realm/realm-config.json
+# This block should be uncommented if you install Keycloak on Kubernetes
+ingress:
+  enabled: true
+  ingressClassName: nginx
+  rules:
+    - host: "keycloak-new.aws.newbusinessdev.local"
+      paths:
+        - path: /
+          pathType: Prefix
+
+# This block should be uncommented if you set Keycloak to OpenShift and change the host field
+# route:
+#   enabled: false
+#   # Path for the Route
+#   path: '/'
+#   # Host name for the Route
+#   host: "keycloak.<ROOT_DOMAIN>"
+#   # TLS configuration
+#   tls:
+#     enabled: true
+
+resources:
+  limits:
+    memory: "2048Mi"
+  requests:
+    cpu: "50m"
+    memory: "512Mi"
+
+# Check database readiness at startup
+dbchecker:
+  enabled: true
+
+database:
+  vendor: postgres
+  existingSecret: keycloak-postgresql
+  hostname: postgresql
+  port: 5432
+  username: admin
+  database: keycloak
