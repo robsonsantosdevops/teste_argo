@@ -1,0 +1,35 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: keycloak-helm
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://charts.bitnami.com/bitnami
+    targetRevision: 14.0.0
+    path: dev/keycloak
+    chart: keycloak
+    #path: dev
+    # files:
+    #       - path: clusters/hml/iza-hml/apps/**/argocd_config.yaml
+    helm:
+      valueFiles:
+        - values.yaml
+      parameters:
+        - name: keycloak
+          value: keycloak-val
+      #releaseName: keycloak
+    # valueFiles:
+    #   - dev/keycloak/values.yaml
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: keycloak
+
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+
+    automated:
+      selfHeal: true
+      prune: true
