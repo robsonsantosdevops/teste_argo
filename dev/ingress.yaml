@@ -10,7 +10,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: "guestbook-ui.aws.newbusinesshom.local"
+  - host: "guestbook-ui.spacesecuritynetwork.local"
     http:
       paths:
       - path: "/"
